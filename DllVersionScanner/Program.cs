@@ -1,7 +1,5 @@
-﻿using CommandLine.Text;
-using CommandLine;
+﻿using CommandLine;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace DllVersionScanner
 {
@@ -18,7 +16,7 @@ namespace DllVersionScanner
 
             Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(options =>
             {
-                if(String.IsNullOrEmpty(options.PathDLL))
+                if (String.IsNullOrEmpty(options.PathDLL))
                 {
                     Console.WriteLine("Argument Path do not Exist");
                     return;
@@ -27,7 +25,7 @@ namespace DllVersionScanner
                 {
                     pathlist = @options.PathDLL;
                 }
-                if(String.IsNullOrEmpty(options.VersionDLL))
+                if (String.IsNullOrEmpty(options.VersionDLL))
                 {
                     Console.WriteLine("Argument DLL Version do not Exist");
                     return;
@@ -49,11 +47,11 @@ namespace DllVersionScanner
 
             });
 
-            DateTime dateNow= DateTime.Now;
+            DateTime dateNow = DateTime.Now;
             string outputfileName = $"output_{dateNow.Day}_{dateNow.Month}_{dateNow.Year}-{dateNow.Hour}-{dateNow.Minute}-{dateNow.Second}.txt";
             string outputfile = Directory.GetCurrentDirectory() + @"\" + outputfileName;
             Version versionToCompare = new Version(version);
-            DateTime datetoCompare = dateNow.AddDays( - daysold);
+            DateTime datetoCompare = dateNow.AddDays(-daysold);
             string[] patharray = pathlist.Split(",");
             using (StreamWriter file = new StreamWriter(outputfile))
             {
@@ -81,10 +79,10 @@ namespace DllVersionScanner
                                     {
                                         Version fileVersion = new(fileVersionStringFormat.Split(" ").FirstOrDefault());
                                         if (fileVersion > versionToCompare && File.GetCreationTime(filename).Date < datetoCompare)
-                                        { 
-                                            notValidFiles.Add($"{filename} Version: {FileVersionInfo.GetVersionInfo(filename).FileVersion} Created on: {File.GetCreationTime(filename)} | NOT Valid Due to DLL Version & Date"); 
+                                        {
+                                            notValidFiles.Add($"{filename} Version: {FileVersionInfo.GetVersionInfo(filename).FileVersion} Created on: {File.GetCreationTime(filename)} | NOT Valid Due to DLL Version & Date");
                                         }
-                                        else if(fileVersion > versionToCompare)
+                                        else if (fileVersion > versionToCompare)
                                         {
                                             notValidFiles.Add($"{filename} Version: {FileVersionInfo.GetVersionInfo(filename).FileVersion} Created on: {File.GetCreationTime(filename)} | NOT Valid Due to DLL Version");
                                         }
@@ -93,13 +91,13 @@ namespace DllVersionScanner
                                             notValidFiles.Add($"{filename} Version: {FileVersionInfo.GetVersionInfo(filename).FileVersion} Created on: {File.GetCreationTime(filename)} | NOT Valid Due to Date");
                                         }
                                         else
-                                        { 
-                                            validFiles.Add($"{filename} Version: {FileVersionInfo.GetVersionInfo(filename).FileVersion} Created on: {File.GetCreationTime(filename)} | Valid"); 
+                                        {
+                                            validFiles.Add($"{filename} Version: {FileVersionInfo.GetVersionInfo(filename).FileVersion} Created on: {File.GetCreationTime(filename)} | Valid");
                                         }
                                     }
-                                    
+
                                 }
-                                if(notValidFiles.Count > 0)
+                                if (notValidFiles.Count > 0)
                                 {
                                     file.WriteLine("NOT Valid DLL list:");
                                     foreach (string inValidFile in notValidFiles)
@@ -107,7 +105,7 @@ namespace DllVersionScanner
                                         file.WriteLine(inValidFile);
                                     }
                                 }
-                                if(validFiles.Count > 0)
+                                if (validFiles.Count > 0)
                                 {
                                     file.WriteLine("Valid DLL list:");
                                     foreach (string validFile in validFiles)
@@ -115,7 +113,7 @@ namespace DllVersionScanner
                                         file.WriteLine(validFile);
                                     }
                                 }
-                                if(notValidFormat.Count > 0)
+                                if (notValidFormat.Count > 0)
                                 {
                                     file.WriteLine("Invalid Version Format DLL list:");
                                     foreach (string notvalidFile in notValidFormat)
@@ -144,7 +142,7 @@ namespace DllVersionScanner
         public string VersionDLL { get; set; }
 
         [Option('a', "age", Required = true, HelpText = "Input how old DLL file can be in days.")]
-        
+
         public int AgeOfDLLFile { get; set; }
 
         [Option('p', "path", Required = true, HelpText = "Input path or multiple pathes separeted by comma .")]
