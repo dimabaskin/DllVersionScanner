@@ -141,14 +141,14 @@ namespace DllVersionScanner
 
     class Options
     {
-        [Option('v', "version", Required = true, HelpText = "Input DLL version.")]
+        [Option('v', "version", Required = true, HelpText = "Input DLL version for validation.")]
         public string VersionDLL { get; set; }
 
         [Option('a', "age", Required = true, HelpText = "Input how old DLL file can be in days.")]
         
         public int AgeOfDLLFile { get; set; }
 
-        [Option('p', "path", Required = true, HelpText = "Input how old DLL file can be in days.")]
+        [Option('p', "path", Required = true, HelpText = "Input path or multiple pathes separeted by comma .")]
 
         public string PathDLL { get; set; }
 
