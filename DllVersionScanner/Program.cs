@@ -72,7 +72,6 @@ namespace DllVersionScanner
                             {
                                 foreach (string filename in fileList)
                                 {
-                                    //Console.WriteLine($"{filename} Version: {FileVersionInfo.GetVersionInfo(filename).FileVersion} Created on: {File.GetCreationTime(filename)}");
                                     string fileVersionStringFormat = FileVersionInfo.GetVersionInfo(filename).FileVersion;
                                     if (String.IsNullOrEmpty(fileVersionStringFormat) || fileVersionStringFormat.Contains(","))
                                     {
